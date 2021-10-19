@@ -7,8 +7,12 @@ const getUserbyEmail = async (email, rqHeaders, token) => {
 		const headers = createHeaders(rqHeaders, token);
 		return await ServiceConsumer.get({ url, headers });
 	} catch (error) {
-		logger.error('Error en user repository ', error);
-		throw { httpCode: 502, code: error.code, message: 'Error al consumir API Users' };
+		logger.error('Error en user repository ', error.code);
+		throw {
+			httpCode: error.response.status,
+			code: error.response.data.code,
+			message: error.response.data.message
+		};
 	}
 };
 

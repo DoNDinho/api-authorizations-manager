@@ -13,7 +13,7 @@ router.post(
 			const transactionId = req.headers['transaction-id'];
 			logger.addContext('transaction_id', transactionId);
 			const response = await loginService.authenticateAndGetUser(req);
-			logger.info({ message: 'Login exitoso', data: response });
+			logger.info({ message: 'Login exitoso', data: JSON.stringify(response) });
 			res.json({ data: response });
 		} catch (error) {
 			next(error);

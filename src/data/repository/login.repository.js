@@ -7,16 +7,16 @@ const login = async (body, rqHeaders) => {
 		const headers = createHeaders(rqHeaders);
 		return await ServiceConsumer.post({ url, headers, body });
 	} catch (error) {
-		logger.error('Error en login repository ', error);
-		throw new Error({
-			httpCode: 502,
-			code: error.code,
-			message: 'Error al consumir API Authorizations'
-		});
+		logger.error('Error en login repository ', error.code);
+		throw {
+			httpCode: error.response.status,
+			code: error.response.data.code,
+			message: error.response.data.message
+		};
 	}
 };
 
-const createHeaders = (rqHeaders, token) => {
+const createHeaders = (rqHeaders) => {
 	const headers = {};
 	headers['transaction-id'] = rqHeaders['transaction-id'];
 	headers.timestamp = rqHeaders.timestamp;
